@@ -10,6 +10,30 @@ import (
 )
 
 func main() {
+	fmt.Println("====now searchDuplicateByFile by os.stdin======")
+
+	counts := make(map[string]int)
+
+	input := bufio.NewScanner(os.Stdin)
+
+	for input.Scan() {
+		if input.Text()=="exit" {
+			break
+		}
+
+		wordsArray := strings.Split(input.Text(), " ")
+		for _, word := range wordsArray {
+			fmt.Printf(word)
+			counts[word]++
+		}
+	}
+
+	for inputStr, idx := range counts {
+		if idx > 1 {
+			fmt.Printf("this is %s count is %d", inputStr, idx)
+			fmt.Println()
+		}
+	}
 
 	fileName := "/Users/didi/goworkspace/src/go-lesson/Chapter1/liuhao.txt"
 
@@ -18,23 +42,25 @@ func main() {
 	if err != nil && err != io.EOF {
 		panic(err)
 	}
-	countMapFile := make(map[string]int,10)
-	searchDuplicateByFile(countMapFile, file)
+
+	searchDuplicateByFile(file)
 
 	fmt.Println("====now searchDuplicateByFile2 by ioutil ======")
-	countMapFile2 := make(map[string]int,100)
-	searchDuplicateByFile2(countMapFile2, fileName)
+	searchDuplicateByFile2(fileName)
 
 }
 
-func searchDuplicateByFile(countMap map[string]int, f *os.File) {
+func searchDuplicateByFile(f *os.File) {
+	countMap := make(map[string]int, 10)
 	inputScanner := bufio.NewScanner(f)
 	countWord(countMap, inputScanner)
 
 	printDuplicate(countMap)
 }
 
-func searchDuplicateByFile2(countMap map[string]int, fileName string) {
+func searchDuplicateByFile2(fileName string) {
+	countMap := make(map[string]int, 100)
+
 	data, err := ioutil.ReadFile(fileName)
 	if err != nil && err != io.EOF {
 		panic(err)
@@ -55,7 +81,7 @@ func searchDuplicateByFile2(countMap map[string]int, fileName string) {
 func countWord(countMap map[string]int, inputScanner *bufio.Scanner) {
 	for inputScanner.Scan() {
 		content := inputScanner.Text()
-		content = strings.TrimSpace(content);
+		content = strings.TrimSpace(content)
 		words := strings.Split(content, " ")
 		for _, word := range words {
 			countMap[word]++ // 等价于 countMap[s]=conutMap[s]+1
