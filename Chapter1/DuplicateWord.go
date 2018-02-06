@@ -35,7 +35,7 @@ func main() {
 		}
 	}
 
-	fileName := "/Users/didi/goworkspace/src/go-lesson/Chapter1/liuhao.txt"
+	fileName := "liuhao.txt"
 
 	fmt.Println("====now searchDuplicateByFile by scanner======")
 	file, err := os.Open(fileName);
