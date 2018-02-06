@@ -34,3 +34,7 @@ func main() {
 		fmt.Printf(string(b))
 	}
 }
+
+func Fetch(url string, ch *chan<- string) {
+
+}
